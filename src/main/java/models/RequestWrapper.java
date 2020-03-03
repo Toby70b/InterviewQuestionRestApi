@@ -1,5 +1,8 @@
 package models;
 
+import javax.persistence.Entity;
+
+@Entity
 public class RequestWrapper {
     private Request Request;
 

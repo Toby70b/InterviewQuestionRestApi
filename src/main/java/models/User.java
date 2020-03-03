@@ -1,7 +1,9 @@
 package models;
 
+import javax.persistence.Entity;
 import java.util.List;
 
+@Entity
 public class User {
     private String name,username;
     private List<String> interests;
