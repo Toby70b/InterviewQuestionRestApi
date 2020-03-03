@@ -33,22 +33,17 @@ public class RequestController {
     // The question stated that the date, time, ip information should be input by the user in a POST instead of generated here
     public ResponseEntity<Request> saveRequestInformation(@RequestBody RequestWrapper requestWrapper) throws IOException {
         //TODO Validate the users input
-        RequestDetails requestDetailsCsv = requestWrapper.getRequest().getRequestDetails();
-        User UserCsv = requestWrapper.getRequest().getUser();
-        WriteCsvValuesToFile(ConvertToCsv(requestDetailsCsv),ConvertToCsv(UserCsv));
+        WriteCsvValuesToFile(requestWrapper.getRequest().convertToCsv());
         return null;
     }
 
-    private void WriteCsvValuesToFile(String requestDetailsCsv, String UserCsv) throws IOException {
+    private void WriteCsvValuesToFile(String csv) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_LOCATION,true));
-        writer.write(requestDetailsCsv);
-        writer.write(UserCsv);
+        writer.write(csv);
         writer.close();
     }
 
-    private String ConvertToCsv(Object object) throws JsonProcessingException {
-        return  CsvConverter.convertObjectToCSV(object);
-    }
+
 
     @DeleteMapping
     public RequestDetails deleteRequestDetails(){
