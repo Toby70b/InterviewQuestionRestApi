@@ -1,28 +1,26 @@
 package models;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import misc.Device;
 import util.CsvConverter;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import util.HttpRequestCreator;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Request implements CsvConverter {
+    private static final String URI = "http://api.ipstack.com/81.153.65.4?access_key=62a441cf871fd83f2bd668bee7b18a5f";
+
     private RequestDetails requestDetails;
     private User user;
-
-    public Request() {
-    }
-
-    public Request(RequestDetails requestDetails, User user) {
-        this.requestDetails = requestDetails;
-        this.user = user;
-    }
 
     public RequestDetails getRequestDetails() {
         return requestDetails;
@@ -47,7 +45,7 @@ public class Request implements CsvConverter {
     }
 
     @Override
-    public Request convertToObject(String[] properties) {
+    public Request convertToObject(String[] properties) throws IOException {
         // Little element of magic number here with the array index, if these were to change would need to change this code
         // TODO look to see if the issue above can be solved
         return new Request(CreateRequestDetailsFromCsv(properties),CreateUserFromCsv(properties));
@@ -83,12 +81,22 @@ public class Request implements CsvConverter {
         return new User(name,username,interests);
     }
 
-    private RequestDetails CreateRequestDetailsFromCsv(String[] properties) {
-        LocalDate date = LocalDate.parse(properties[0]);
-        LocalTime time = LocalTime.parse(properties[1]);
-        String ipAddress = properties[2];
-        Device device = AddDevice(properties[3]);
-        return new RequestDetails(date,time,device,ipAddress);
+    private RequestDetails CreateRequestDetailsFromCsv(String[] properties) throws IOException {
+            LocalDate date = LocalDate.parse(properties[0]);
+            LocalTime time = LocalTime.parse(properties[1]);
+            String ipAddress = properties[2];
+            LocationDetails locationDetails = getIpAddressDetails();
+            Device device = AddDevice(properties[3]);
+            return new RequestDetails(date,time,device,ipAddress,locationDetails);
+    }
+
+    private LocationDetails getIpAddressDetails() throws IOException {
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator(URI);
+        ObjectMapper mapper = new ObjectMapper();
+        //Stack IP Json uses underscores, convert to camelCase here for consistency
+        mapper.setPropertyNamingStrategy(new PropertyNamingStrategy.SnakeCaseStrategy());
+        LocationDetails convertedObject = mapper.readValue(httpRequestCreator.getAll(), LocationDetails.class);
+        return convertedObject;
     }
 
     private Device AddDevice(String device) {

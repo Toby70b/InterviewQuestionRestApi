@@ -1,18 +1,15 @@
 package models;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.Entity;
 import java.util.List;
 
-@Entity
+@AllArgsConstructor
 public class User {
     private String name,username;
     private List<String> interests;
-
-    public User(String name, String username, List<String> interests) {
-        this.name = name;
-        this.username = username;
-        this.interests = interests;
-    }
 
     public String getName() {
         return name;

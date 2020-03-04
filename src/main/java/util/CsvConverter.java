@@ -5,9 +5,11 @@ package util;
    However I could make this an abstract class if there was a default mode of behaviour to converting to and from
 */
 
+import java.io.IOException;
+
 public interface CsvConverter<T> {
     static final String SEPERATOR = ",";
 
     public String convertToCsv();
-    public T convertToObject(String[] properties);
+    public T convertToObject(String[] properties) throws IOException;
 }
