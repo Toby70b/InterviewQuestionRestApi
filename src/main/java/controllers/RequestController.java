@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import util.CsvFileWriter;
+import util.CsvFileHandler;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class RequestController {
         //TODO add better error handling to this
         try {
             return new ResponseEntity<>(
-                    ConvertCsvStringToListOfRequests(CsvFileWriter.readFromCsv()), HttpStatus.OK);
+                    ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()), HttpStatus.OK);
         }
         catch (IOException exc) {
             throw new ResponseStatusException(
@@ -39,15 +39,28 @@ public class RequestController {
     // The question stated that the date, time, ip information should be input by the user in a POST instead of generated here
     public ResponseEntity<String> saveRequestInformation(@RequestBody RequestWrapper requestWrapper) throws IOException {
         //TODO Validate the users input
-        CsvFileWriter.writeCsvStringToFile(requestWrapper.getRequest().convertToCsv());
-        //TODO Return error if.....error
-        return new ResponseEntity<>(
-                "Save Successful", HttpStatus.OK);
+        try {
+            CsvFileHandler.writeCsvStringToFile(requestWrapper.getRequest().convertToCsv());
+            return new ResponseEntity<>(
+                    "Save Successful", HttpStatus.OK);
+        }
+        catch (IOException exc){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
+        }
     }
 
-    @DeleteMapping
-    public RequestDetails deleteRequestDetails(){
-        return null;
+    @DeleteMapping("{username}")
+    public ResponseEntity deleteRequestDetails(@PathVariable  String username) throws IOException {
+        try {
+            CsvFileHandler.removeLineFromFile(username);
+            return new ResponseEntity<>(
+                    "Delete Successful", HttpStatus.OK);
+        }
+        catch (IOException exc){
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error when deleting", exc);
+        }
     }
 
     private List<Request> ConvertCsvStringToListOfRequests(String csvString) {
