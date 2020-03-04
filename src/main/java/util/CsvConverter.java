@@ -1,13 +1,13 @@
 package util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+/*
+   Note: Made this and interface to allow classes to define how to convert to and from a CSV themselves.
+   However I could make this an abstract class if there was a default mode of behaviour to converting to and from
+*/
 
 public interface CsvConverter<T> {
     static final String SEPERATOR = ",";
 
     public String convertToCsv();
-    public T convertToObject(String csv);
+    public T convertToObject(String[] properties);
 }

@@ -1,52 +1,61 @@
 package controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.RequiredArgsConstructor;
 import models.Request;
 import models.RequestDetails;
 import models.RequestWrapper;
-import models.User;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import util.CsvConverter;
+import org.springframework.web.server.ResponseStatusException;
+import util.CsvFileWriter;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class RequestController {
 
-    private static final String FILE_LOCATION = "C:\\Users\\Toby Peel\\DEV\\Java Projects\\InterviewQuestionRestApi\\src\\main\\resources\\requests.csv";
 
     @GetMapping
-    public RequestDetails getRequestDetails(){
-        System.out.println("test");return null;
+    public ResponseEntity<List<Request>> getRequests() throws IOException {
+        //TODO add better error handling to this
+        try {
+            return new ResponseEntity<>(
+                    ConvertCsvStringToListOfRequests(CsvFileWriter.readFromCsv()), HttpStatus.OK);
+        }
+        catch (IOException exc) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
+        }
     }
 
     @PostMapping
     // The question stated that the date, time, ip information should be input by the user in a POST instead of generated here
-    public ResponseEntity<Request> saveRequestInformation(@RequestBody RequestWrapper requestWrapper) throws IOException {
+    public ResponseEntity<String> saveRequestInformation(@RequestBody RequestWrapper requestWrapper) throws IOException {
         //TODO Validate the users input
-        WriteCsvValuesToFile(requestWrapper.getRequest().convertToCsv());
-        return null;
+        CsvFileWriter.writeCsvStringToFile(requestWrapper.getRequest().convertToCsv());
+        //TODO Return error if.....error
+        return new ResponseEntity<>(
+                "Save Successful", HttpStatus.OK);
     }
-
-    private void WriteCsvValuesToFile(String csv) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_LOCATION,true));
-        writer.write(csv);
-        writer.close();
-    }
-
-
 
     @DeleteMapping
     public RequestDetails deleteRequestDetails(){
         return null;
+    }
+
+    private List<Request> ConvertCsvStringToListOfRequests(String csvString) {
+        List<Request> requests = new ArrayList<>();
+        List<String> interests = new LinkedList<>(Arrays.asList(csvString.split("\n")));
+        for (String request: interests){
+            requests.add(new Request().convertToObject(request.split(",")));
+        }
+        return requests;
     }
 }
