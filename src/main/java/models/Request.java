@@ -17,7 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Request implements CsvConverter {
-    private static final String URI = "http://api.ipstack.com/81.153.65.4?access_key=62a441cf871fd83f2bd668bee7b18a5f";
+    private static final String URI = "http://api.ipstack.com/";
+    private static final String KEY ="?access_key=62a441cf871fd83f2bd668bee7b18a5f";
 
     private RequestDetails requestDetails;
     private User user;
@@ -85,13 +86,14 @@ public class Request implements CsvConverter {
             LocalDate date = LocalDate.parse(properties[0]);
             LocalTime time = LocalTime.parse(properties[1]);
             String ipAddress = properties[2];
-            LocationDetails locationDetails = getIpAddressDetails();
+            LocationDetails locationDetails = getIpAddressDetails(properties[2]);
             Device device = AddDevice(properties[3]);
             return new RequestDetails(date,time,device,ipAddress,locationDetails);
     }
 
-    private LocationDetails getIpAddressDetails() throws IOException {
-        HttpRequestCreator httpRequestCreator = new HttpRequestCreator(URI);
+    private LocationDetails getIpAddressDetails(String property) throws IOException {
+        // TODO: throw error if Ip stack doesnt find anything
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator(URI+property+KEY);
         ObjectMapper mapper = new ObjectMapper();
         //Stack IP Json uses underscores, convert to camelCase here for consistency
         mapper.setPropertyNamingStrategy(new PropertyNamingStrategy.SnakeCaseStrategy());
