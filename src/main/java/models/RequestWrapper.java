@@ -4,9 +4,11 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 public class RequestWrapper {
+    @Valid
     private Request Request;
 
     public models.Request getRequest() {

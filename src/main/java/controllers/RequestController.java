@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import util.CsvFileHandler;
 
+import javax.validation.Valid;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class RequestController {
 
     @PostMapping
     // The question stated that the date, time, ip information should be input by the user in a POST instead of generated here
-    public ResponseEntity<String> saveRequestInformation(@RequestBody RequestWrapper requestWrapper) throws IOException {
+    public ResponseEntity<String> saveRequestInformation(@Valid @RequestBody RequestWrapper requestWrapper) throws IOException {
         //TODO Validate the users input
         try {
             CsvFileHandler.writeCsvStringToFile(requestWrapper.getRequest().convertToCsv());

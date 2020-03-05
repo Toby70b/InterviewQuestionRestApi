@@ -4,23 +4,25 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import misc.Device;
-import org.springframework.beans.factory.annotation.Required;
-
-import javax.persistence.Entity;
-
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class RequestDetails {
     @NonNull
+    @NotNull
     private LocalDate date;
     @NonNull
+    @NotNull
     private LocalTime time;
     @NonNull
+    @NotNull
     private Device device;
     @NonNull
+    @NotNull
     private String ipAddress;
     private LocationDetails locationDetails;
 

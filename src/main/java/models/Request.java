@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import misc.Device;
 import util.CsvConverter;
 import util.HttpRequestCreator;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +23,11 @@ public class Request implements CsvConverter {
     private static final String URI = "http://api.ipstack.com/";
     private static final String KEY ="?access_key=62a441cf871fd83f2bd668bee7b18a5f";
 
+    @NotNull
+    @Valid
     private RequestDetails requestDetails;
+    @NotNull
+    @Valid
     private User user;
 
     public RequestDetails getRequestDetails() {
