@@ -16,7 +16,7 @@ public class CsvFileHandler {
     private static final String SEPERATOR = ",";
 
     public static void writeCsvStringToFile(String csv) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new java.io.FileWriter(FILE_LOCATION,true));
+        BufferedWriter writer = new BufferedWriter(new java.io.FileWriter(FILE_LOCATION, true));
         writer.write(csv);
         writer.close();
     }
@@ -25,9 +25,9 @@ public class CsvFileHandler {
         StringBuilder csv = new StringBuilder();
         String line = "";
         BufferedReader reader = new BufferedReader(new FileReader(FILE_LOCATION));
-            while ((line = reader.readLine()) != null) {
-                csv.append(line).append(System.lineSeparator());
-            }
+        while ((line = reader.readLine()) != null) {
+            csv.append(line).append(System.lineSeparator());
+        }
         reader.close();
         return csv.toString();
     }
@@ -40,7 +40,7 @@ public class CsvFileHandler {
         String line;
         while ((line = reader.readLine()) != null) {
             Request request = new Request().convertToObject(line.split(SEPERATOR));
-            if(!(request.getUser().getUsername().equals(username))){
+            if (!(request.getUser().getUsername().equals(username))) {
                 writer.write(line + System.lineSeparator());
             }
         }

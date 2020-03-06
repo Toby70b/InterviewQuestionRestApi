@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Language {
-    private String code,name;
+    private String code, name;
     @JsonProperty("native")
     private String nativeLanguage;
 

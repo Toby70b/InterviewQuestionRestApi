@@ -2,7 +2,6 @@ package controllers;
 
 import lombok.RequiredArgsConstructor;
 import models.Request;
-import models.RequestDetails;
 import models.RequestWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import util.CsvFileHandler;
 
 import javax.validation.Valid;
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -29,8 +28,7 @@ public class RequestController {
         try {
             return new ResponseEntity<>(
                     ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()), HttpStatus.OK);
-        }
-        catch (IOException exc) {
+        } catch (IOException exc) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
         }
@@ -44,21 +42,19 @@ public class RequestController {
             CsvFileHandler.writeCsvStringToFile(requestWrapper.getRequest().convertToCsv());
             return new ResponseEntity<>(
                     "Save Successful", HttpStatus.OK);
-        }
-        catch (IOException exc){
+        } catch (IOException exc) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
         }
     }
 
     @DeleteMapping("{username}")
-    public ResponseEntity deleteRequestDetails(@PathVariable  String username) throws IOException {
+    public ResponseEntity deleteRequestDetails(@PathVariable String username) throws IOException {
         try {
             CsvFileHandler.removeLineFromFile(username);
             return new ResponseEntity<>(
                     "Delete Successful", HttpStatus.OK);
-        }
-        catch (IOException exc){
+        } catch (IOException exc) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error when deleting", exc);
         }
@@ -67,7 +63,7 @@ public class RequestController {
     private List<Request> ConvertCsvStringToListOfRequests(String csvString) throws IOException {
         List<Request> requests = new ArrayList<>();
         List<String> interests = new LinkedList<>(Arrays.asList(csvString.split(System.lineSeparator())));
-        for (String request: interests){
+        for (String request : interests) {
             requests.add(new Request().convertToObject(request.split(",")));
         }
         return requests;

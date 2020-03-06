@@ -2,7 +2,6 @@ package models;
 
 import lombok.AllArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -11,10 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 public class User {
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z]+$" ,message = "{com.interviewrestapi.onlyAlphabeticalCharacters.message}")
-    @Size(min=2, max=30)
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "{com.interviewrestapi.onlyAlphabeticalCharacters.message}")
+    @Size(min = 2, max = 30)
     private String name;
-    @Size(min=2, max=30)
+    @Size(min = 2, max = 30)
     private String username;
     private List<String> interests;
 
