@@ -37,7 +37,6 @@ public class RequestController {
     @PostMapping
     // The question stated that the date, time, ip information should be input by the user in a POST instead of generated here
     public ResponseEntity<String> saveRequestInformation(@Valid @RequestBody RequestWrapper requestWrapper) throws IOException {
-        //TODO Validate the users input
         try {
             CsvFileHandler.writeCsvStringToFile(requestWrapper.getRequest().convertToCsv());
             return new ResponseEntity<>(
