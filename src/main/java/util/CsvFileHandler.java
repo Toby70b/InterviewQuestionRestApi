@@ -10,7 +10,7 @@ public class CsvFileHandler {
 
 
     private static final String FILE_LOCATION = ".\\src\\main\\resources\\requests.csv";
-    private static final String TEMP_FILE_LOCATION = ".\\src\\main\\resources\\requests.csv";
+    private static final String TEMP_FILE_LOCATION = ".\\src\\main\\resources\\tempRequests.csv";
     private static final String SEPERATOR = ",";
 
     public static void writeCsvStringToFile(String csv) throws IOException {
