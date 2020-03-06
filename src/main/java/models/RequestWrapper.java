@@ -1,9 +1,5 @@
 package models;
-
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
-import javax.persistence.Entity;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor

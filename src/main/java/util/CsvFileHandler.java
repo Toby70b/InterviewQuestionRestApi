@@ -26,7 +26,7 @@ public class CsvFileHandler {
         String line = "";
         BufferedReader reader = new BufferedReader(new FileReader(FILE_LOCATION));
             while ((line = reader.readLine()) != null) {
-                csv.append(line).append("\n");
+                csv.append(line).append(System.lineSeparator());
             }
         reader.close();
         return csv.toString();

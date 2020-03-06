@@ -16,12 +16,24 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class Request implements CsvConverter {
     private static final String URI = "http://api.ipstack.com/";
     private static final String KEY ="?access_key=62a441cf871fd83f2bd668bee7b18a5f";
+
+    //RequestDetails properties Index constants
+    private static final int DATE_INDEX = 0;
+    private static final int TIME_INDEX = 1;
+    private static final int IPADDRESS_INDEX = 2;
+    private static final int DEVICE_INDEX = 3;
+
+    //User properties Index constants
+    private static final int USERNAME_INDEX = 4;
+    private static final int NAME_INDEX = 5;
+    private static final int INTERESTS_INDEX = 6;
 
     @NotNull
     @Valid
@@ -48,23 +60,20 @@ public class Request implements CsvConverter {
 
     @Override
     public String convertToCsv() {
-        StringBuilder csvCreator = new StringBuilder().append(convertRequestDetailsToCsv()).append(convertUserToCsv()).append("\n");
+        StringBuilder csvCreator = new StringBuilder().append(convertRequestDetailsToCsv()).append(convertUserToCsv()).append(System.lineSeparator());
         return csvCreator.toString();
     }
 
     @Override
     public Request convertToObject(String[] properties) throws IOException {
-        // Little element of magic number here with the array index, if these were to change would need to change this code
-        // TODO look to see if the issue above can be solved
         return new Request(CreateRequestDetailsFromCsv(properties),CreateUserFromCsv(properties));
-
     }
 
     private StringBuilder convertUserToCsv() {
         StringBuilder userCsv = new StringBuilder();
         userCsv.append(this.user.getUsername()).append(SEPERATOR);
         userCsv.append(this.user.getName()).append(SEPERATOR);
-        String interests = this.user.getInterests().stream().reduce("",(concat,newStr) -> concat+";"+newStr);
+        String interests = this.user.getInterests().stream().collect(Collectors.joining(";"));
         userCsv.append(interests).append(SEPERATOR);
         return userCsv;
     }
@@ -79,22 +88,18 @@ public class Request implements CsvConverter {
     }
 
     private User CreateUserFromCsv(String[] properties) {
-        String username = properties[4];
-        String name  = properties[5];
-        List<String> interests = new LinkedList<>(Arrays.asList(properties[6].split(";")));
-        //Remove the empty string at start, this is from the reduction method
-        //TODO: maybe change the reduction method, this is kinda ugly
-        interests.remove(0);
-
+        String username = properties[USERNAME_INDEX];
+        String name  = properties[NAME_INDEX];
+        List<String> interests = new LinkedList<>(Arrays.asList(properties[INTERESTS_INDEX].split(";")));
         return new User(name,username,interests);
     }
 
     private RequestDetails CreateRequestDetailsFromCsv(String[] properties) throws IOException {
-            LocalDate date = LocalDate.parse(properties[0]);
-            LocalTime time = LocalTime.parse(properties[1]);
-            String ipAddress = properties[2];
-            LocationDetails locationDetails = getIpAddressDetails(properties[2]);
-            Device device = AddDevice(properties[3]);
+            LocalDate date = LocalDate.parse(properties[DATE_INDEX]);
+            LocalTime time = LocalTime.parse(properties[TIME_INDEX]);
+            String ipAddress = properties[IPADDRESS_INDEX];
+            LocationDetails locationDetails = getIpAddressDetails(properties[IPADDRESS_INDEX]);
+            Device device = AddDevice(properties[DEVICE_INDEX]);
             return new RequestDetails(date,time,device,ipAddress,locationDetails);
     }
 

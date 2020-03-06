@@ -66,7 +66,7 @@ public class RequestController {
 
     private List<Request> ConvertCsvStringToListOfRequests(String csvString) throws IOException {
         List<Request> requests = new ArrayList<>();
-        List<String> interests = new LinkedList<>(Arrays.asList(csvString.split("\n")));
+        List<String> interests = new LinkedList<>(Arrays.asList(csvString.split(System.lineSeparator())));
         for (String request: interests){
             requests.add(new Request().convertToObject(request.split(",")));
         }
