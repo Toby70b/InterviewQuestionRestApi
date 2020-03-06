@@ -12,6 +12,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @ComponentScan(basePackages = {"controllers"})
 public class InterviewRestApiApplication {
 
+    public static void main(String[] args) {
+        SpringApplication.run(InterviewRestApiApplication.class, args);
+    }
+
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -25,10 +29,6 @@ public class InterviewRestApiApplication {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
         return bean;
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(InterviewRestApiApplication.class, args);
     }
 
 }
