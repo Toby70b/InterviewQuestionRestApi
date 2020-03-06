@@ -1,5 +1,7 @@
 package models;
+
 import lombok.RequiredArgsConstructor;
+
 import javax.validation.Valid;
 
 @RequiredArgsConstructor

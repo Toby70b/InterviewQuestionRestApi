@@ -9,7 +9,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"controllers"} )
+@ComponentScan(basePackages = {"controllers"})
 public class InterviewRestApiApplication {
 
     @Bean

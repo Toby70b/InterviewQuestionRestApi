@@ -8,8 +8,9 @@ package util;
 import java.io.IOException;
 
 public interface CsvConverter<T> {
-    static final String SEPERATOR = ",";
+    String SEPERATOR = ",";
 
-    public String convertToCsv();
-    public T convertToObject(String[] properties) throws IOException;
+    String convertToCsv();
+
+    T convertToObject(String[] properties) throws IOException;
 }
