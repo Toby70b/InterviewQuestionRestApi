@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")
@@ -28,6 +29,17 @@ public class RequestController {
         try {
             return new ResponseEntity<>(
                     ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()), HttpStatus.OK);
+        } catch (IOException exc) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
+        }
+    }
+
+    @GetMapping("{username}")
+    public ResponseEntity<List<Request>> getRequestsByUsername(@PathVariable String username) throws IOException {
+        try {
+            return new ResponseEntity<>(
+                    filterRequestListByUsername(ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()),username), HttpStatus.OK);
         } catch (IOException exc) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
@@ -66,5 +78,12 @@ public class RequestController {
             requests.add(new Request().convertToObject(request.split(",")));
         }
         return requests;
+    }
+
+    private List<Request> filterRequestListByUsername(List<Request> requests, String username){
+        return requests
+                .stream()
+                .filter(request ->  request.getUser().getUsername().toLowerCase().equals(username.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
