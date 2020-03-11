@@ -1,10 +1,12 @@
 package models;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 
 /* IpStack api variables are written in underscores this helps jackson convert back to camelCase*/
 @AllArgsConstructor
+@NoArgsConstructor
 public class LocationDetails {
     private String ip;
     private String type;

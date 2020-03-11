@@ -3,7 +3,6 @@ package controllers;
 import exceptions.NonExistingRequestException;
 import lombok.RequiredArgsConstructor;
 import models.Request;
-import models.RequestWrapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class RequestController {
     @GetMapping
@@ -45,9 +44,9 @@ public class RequestController {
 
     @PostMapping
     // The question stated that the date, time, ip information should be input by the user in a POST instead of generated here
-    public ResponseEntity<String> createRequest(@Valid @RequestBody RequestWrapper requestWrapper) throws IOException {
+    public ResponseEntity<String> createRequest(@Valid @RequestBody Request request) throws IOException {
         try {
-            CsvFileHandler.writeCsvStringToFile(requestWrapper.getRequest().convertToCsv());
+            CsvFileHandler.writeCsvStringToFile(request.convertToCsv());
             return new ResponseEntity<>(
                     "Save Successful", HttpStatus.OK);
         } catch (IOException exc) {
