@@ -1,11 +1,11 @@
-package models;
+package com.interviewrestapi.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import util.CsvConverter;
-import util.HttpRequestCreator;
+import com.interviewrestapi.util.CsvConverter;
+import com.interviewrestapi.util.HttpRequestCreator;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

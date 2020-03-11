@@ -1,7 +1,7 @@
-package controllers;
+package com.interviewrestapi.controller;
 
-import controllers.errors.ApiError;
-import exceptions.NonExistingRequestException;
+import com.interviewrestapi.errors.ApiError;
+import com.interviewrestapi.exception.NonExistingRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
                 currentApiVersion,
                 Integer.toString(HttpStatus.NOT_FOUND.value()),
                 "Request Not Found",
-                "request-exceptions",
+                "request-com.interviewrestapi.exceptions",
                 "NonExistingRequestException",
                 "Request with username "+ex.getMessage()+" Not Found",
                 sendReportUri
@@ -48,7 +48,7 @@ public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
                 currentApiVersion,
                 Integer.toString(BAD_REQUEST.value()),
                 "Argument value not valid",
-                "request-exceptions",
+                "request-com.interviewrestapi.exceptions",
                 "MethodArgumentNotValidException",
                 "Argument value not valid",
                 sendReportUri

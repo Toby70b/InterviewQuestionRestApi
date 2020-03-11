@@ -1,4 +1,4 @@
-package controllers.errors;
+package com.interviewrestapi.errors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

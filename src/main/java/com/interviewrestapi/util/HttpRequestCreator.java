@@ -1,4 +1,4 @@
-package util;
+package com.interviewrestapi.util;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

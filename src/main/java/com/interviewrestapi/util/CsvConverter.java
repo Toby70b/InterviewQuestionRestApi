@@ -1,4 +1,4 @@
-package util;
+package com.interviewrestapi.util;
 
 /*
    Note: Made this and interface to allow classes to define how to convert to and from a CSV themselves.

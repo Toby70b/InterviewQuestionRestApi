@@ -1,4 +1,4 @@
-package models;
+package com.interviewrestapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

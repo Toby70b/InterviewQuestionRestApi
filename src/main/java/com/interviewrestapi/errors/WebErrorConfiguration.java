@@ -1,4 +1,4 @@
-package controllers.errors;
+package com.interviewrestapi.errors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;

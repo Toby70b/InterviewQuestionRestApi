@@ -1,13 +1,13 @@
-package controllers;
+package com.interviewrestapi.controller;
 
-import exceptions.NonExistingRequestException;
+import com.interviewrestapi.exception.NonExistingRequestException;
 import lombok.RequiredArgsConstructor;
-import models.Request;
+import com.interviewrestapi.model.Request;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import util.CsvFileHandler;
+import com.interviewrestapi.util.CsvFileHandler;
 
 import javax.validation.Valid;
 import java.io.IOException;

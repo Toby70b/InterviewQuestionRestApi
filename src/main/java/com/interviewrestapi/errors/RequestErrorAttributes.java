@@ -1,4 +1,4 @@
-package controllers.errors;
+package com.interviewrestapi.errors;
 
 import lombok.AllArgsConstructor;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;

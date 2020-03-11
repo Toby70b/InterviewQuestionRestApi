@@ -1,6 +1,6 @@
-package util;
+package com.interviewrestapi.util;
 
-import models.Request;
+import com.interviewrestapi.model.Request;
 
 import java.io.*;
 import java.nio.file.Files;
