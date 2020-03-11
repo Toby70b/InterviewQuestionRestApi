@@ -6,6 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+//TODO: need to add try with resources to this class and throw the error back up
 public class CsvFileHandler {
 
 
@@ -22,11 +23,11 @@ public class CsvFileHandler {
     public static String readFromCsv() throws IOException {
         StringBuilder csv = new StringBuilder();
         String line = "";
-        BufferedReader reader = new BufferedReader(new FileReader(FILE_LOCATION));
-        while ((line = reader.readLine()) != null) {
-            csv.append(line).append(System.lineSeparator());
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_LOCATION))) {
+            while ((line = reader.readLine()) != null) {
+                csv.append(line).append(System.lineSeparator());
+            }
         }
-        reader.close();
         return csv.toString();
     }
 

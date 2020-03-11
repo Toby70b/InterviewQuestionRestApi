@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import util.CsvFileHandler;
+import exceptions.NonExistingRequestException;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -25,10 +26,10 @@ public class RequestController {
 
     @GetMapping
     public ResponseEntity<List<Request>> getRequests() throws IOException {
-        //TODO add better error handling to this
         try {
             return new ResponseEntity<>(
                     ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()), HttpStatus.OK);
+
         } catch (IOException exc) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
@@ -37,13 +38,11 @@ public class RequestController {
 
     @GetMapping("{username}")
     public ResponseEntity<List<Request>> getRequestsByUsername(@PathVariable String username) throws IOException {
-        try {
-            return new ResponseEntity<>(
-                    filterRequestListByUsername(ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()),username), HttpStatus.OK);
-        } catch (IOException exc) {
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from file", exc);
+        List<Request> requests = filterRequestListByUsername(ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()), username);
+        if (requests.size() <= 0) {
+            throw new NonExistingRequestException(username);
         }
+        return new ResponseEntity<>(requests, HttpStatus.OK);
     }
 
     @PostMapping
