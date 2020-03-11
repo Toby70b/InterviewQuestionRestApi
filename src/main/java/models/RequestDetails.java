@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import misc.Device;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;

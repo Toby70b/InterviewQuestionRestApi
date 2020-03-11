@@ -1,9 +1,9 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Language {
     private String code, name;
     @JsonProperty("native")

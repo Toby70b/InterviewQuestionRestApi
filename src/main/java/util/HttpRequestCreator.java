@@ -1,5 +1,7 @@
 package util;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -12,17 +14,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+@RequiredArgsConstructor
 public class HttpRequestCreator {
     private HttpClient client;
-    private Header contentTypeHeader;
+    private Header contentTypeHeader = new BasicHeader("Content-Type", "application/json; charset=UTF-8");;
+    @NonNull
     private String URI;
-
-
-    public HttpRequestCreator(String URI) {
-        contentTypeHeader = new BasicHeader("Content-Type", "application/json; charset=UTF-8");
-        client = HttpClientBuilder.create().build();
-        this.URI = URI;
-    }
 
     public String getAll() throws IOException {
         try {
@@ -31,34 +28,27 @@ public class HttpRequestCreator {
             post.addHeader(contentTypeHeader);
 
             HttpResponse response = client.execute(post);
-
             return inputStreamToString(response.getEntity().getContent());
-
 
         } catch (IOException e) {
             throw new IOException(e.getMessage());
         }
     }
 
-
     private String inputStreamToString(InputStream is) throws IOException {
-
         String line = "";
         StringBuilder total = new StringBuilder();
 
         // Wrap a BufferedReader around the InputStream
-        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-
-        try {
+        try(BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
             // Read response until the end
             while ((line = rd.readLine()) != null) {
                 total.append(line);
             }
-        } catch (IOException e) {
-            rd.close();
         }
-        rd.close();
-        // Return full string
+        catch (IOException e){
+            throw new IOException(e.getMessage());
+        }
         return total.toString();
     }
 

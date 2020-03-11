@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import misc.Device;
 import util.CsvConverter;
 import util.HttpRequestCreator;
 

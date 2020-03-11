@@ -1,10 +1,10 @@
 package models;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import javax.validation.Valid;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class RequestWrapper {
     @Valid
     private Request Request;

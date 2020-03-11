@@ -1,12 +1,12 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Location {
     private int geonameId;
     private String capital;
