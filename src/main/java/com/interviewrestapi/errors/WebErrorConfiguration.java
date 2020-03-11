@@ -10,12 +10,10 @@ public class WebErrorConfiguration {
 
     @Value("${requests.api.version}")
     private String currentApiVersion;
-    @Value("${requests.sendreport.uri}")
-    private String sendReportUri;
 
     @Bean
     public ErrorAttributes errorAttributes() {
-        return new RequestErrorAttributes(currentApiVersion, sendReportUri);
+        return new RequestErrorAttributes(currentApiVersion);
     }
 
 }

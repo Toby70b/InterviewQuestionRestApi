@@ -20,8 +20,6 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RestControllerAdvice
 public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @Value("${requests.sendreport.uri}")
-    private String sendReportUri;
     @Value("${requests.api.version}")
     private String currentApiVersion;
 
@@ -31,10 +29,9 @@ public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
                 currentApiVersion,
                 Integer.toString(HttpStatus.NOT_FOUND.value()),
                 "Request Not Found",
-                "request-com.interviewrestapi.exceptions",
+                "request-exceptions",
                 "NonExistingRequestException",
-                "Request with username "+ex.getMessage()+" Not Found",
-                sendReportUri
+                "Request with username "+ex.getMessage()+" Not Found"
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -48,10 +45,9 @@ public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
                 currentApiVersion,
                 Integer.toString(BAD_REQUEST.value()),
                 "Argument value not valid",
-                "request-com.interviewrestapi.exceptions",
+                "request-exceptions",
                 "MethodArgumentNotValidException",
-                "Argument value not valid",
-                sendReportUri
+                "Argument value not valid"
         );
         return new ResponseEntity<>(error, BAD_REQUEST);
     }

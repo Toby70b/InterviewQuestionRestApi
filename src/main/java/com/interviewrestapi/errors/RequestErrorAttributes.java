@@ -10,14 +10,12 @@ import java.util.Map;
 public class RequestErrorAttributes extends DefaultErrorAttributes {
 
     private String currentApiVersion;
-    private String sendReportUri;
 
     @Override
     public Map<String, Object> getErrorAttributes(WebRequest webRequest,boolean includeStackTrace) {
         final Map<String, Object> defaultErrorAttributes = super.getErrorAttributes(webRequest, false);
         final ApiError error = ApiError.fromDefaultAttributeMap(
-                currentApiVersion, defaultErrorAttributes, sendReportUri
-        );
+                currentApiVersion, defaultErrorAttributes);
         return error.toAttributeMap();
     }
 }
