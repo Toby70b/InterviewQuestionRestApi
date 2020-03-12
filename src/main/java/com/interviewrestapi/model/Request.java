@@ -2,6 +2,7 @@ package com.interviewrestapi.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.interviewrestapi.exception.LocationDetailsNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import com.interviewrestapi.util.CsvConverter;
@@ -102,13 +103,14 @@ public class Request implements CsvConverter {
         return new RequestDetails(date, time, device, ipAddress, locationDetails);
     }
 
-    private LocationDetails getIpAddressDetails(String property) throws IOException {
-        // TODO: throw error if Ip stack doesnt find anything
-        HttpRequestCreator httpRequestCreator = new HttpRequestCreator(URI + property + KEY);
+    private LocationDetails getIpAddressDetails(String ipAddress) throws IOException {
+        HttpRequestCreator httpRequestCreator = new HttpRequestCreator(URI + ipAddress + KEY);
         ObjectMapper mapper = new ObjectMapper();
         //Stack IP Json uses underscores, convert to camelCase here for consistency
         mapper.setPropertyNamingStrategy(new PropertyNamingStrategy.SnakeCaseStrategy());
         LocationDetails convertedObject = mapper.readValue(httpRequestCreator.getAll(), LocationDetails.class);
+        //If the ip type (i.e. ipv4, v6) is null its likely the ip was invalid (I'm not going to try 1000000 ips to confirm this when I'm not being paid)
+        if(convertedObject.getType() == null) throw new LocationDetailsNotFoundException(ipAddress);
         return convertedObject;
     }
 

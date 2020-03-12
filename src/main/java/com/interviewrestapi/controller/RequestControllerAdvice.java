@@ -2,6 +2,7 @@ package com.interviewrestapi.controller;
 
 import com.interviewrestapi.errors.ApiError;
 import com.interviewrestapi.errors.Error;
+import com.interviewrestapi.exception.LocationDetailsNotFoundException;
 import com.interviewrestapi.exception.NonExistingRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +35,19 @@ public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
                 "request-exceptions",
                 "NonExistingRequestException",
                 "Request with username "+ex.getMessage()+" Not Found"
+        );
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(LocationDetailsNotFoundException.class)
+    public ResponseEntity<ApiError> handleLocationDetailsNotFound(LocationDetailsNotFoundException ex) {
+        final ApiError error = new ApiError(
+                currentApiVersion,
+                Integer.toString(HttpStatus.NOT_FOUND.value()),
+                "Location details not found",
+                "request-exceptions",
+                "LocationDetailsNotFoundException",
+                "IP stack couldn't find any details for IP "+ex.getMessage()
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
