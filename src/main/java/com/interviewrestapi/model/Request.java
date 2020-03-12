@@ -110,6 +110,7 @@ public class Request implements CsvConverter {
         mapper.setPropertyNamingStrategy(new PropertyNamingStrategy.SnakeCaseStrategy());
         LocationDetails convertedObject = mapper.readValue(httpRequestCreator.getAll(), LocationDetails.class);
         //If the ip type (i.e. ipv4, v6) is null its likely the ip was invalid (I'm not going to try 1000000 ips to confirm this when I'm not being paid)
+        // Though doing this may be wrong, a user may want the other details but without the ip stuff
         if(convertedObject.getType() == null) throw new LocationDetailsNotFoundException(ipAddress);
         return convertedObject;
     }
