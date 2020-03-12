@@ -1,11 +1,13 @@
 package com.interviewrestapi.controller;
 
 import com.interviewrestapi.errors.ApiError;
+import com.interviewrestapi.errors.Error;
 import com.interviewrestapi.exception.NonExistingRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -38,10 +40,7 @@ public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        //TODO: add sub errors for each field
-        List<String> errors = new ArrayList<String>();
-
-        final ApiError error = new ApiError(
+        final ApiError apiError = new ApiError(
                 currentApiVersion,
                 Integer.toString(BAD_REQUEST.value()),
                 "Argument value not valid",
@@ -49,6 +48,11 @@ public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
                 "MethodArgumentNotValidException",
                 "Argument value not valid"
         );
-        return new ResponseEntity<>(error, BAD_REQUEST);
+        List<Error> errors = new ArrayList<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.add(  new Error("request-exceptions","MethodArgumentNotValidException",error.getField() + ": " + error.getDefaultMessage()));
+        }
+        apiError.getError().setErrors(errors);
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 }
