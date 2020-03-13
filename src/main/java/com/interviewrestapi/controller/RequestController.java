@@ -1,6 +1,7 @@
 package com.interviewrestapi.controller;
 
 import com.interviewrestapi.exception.NonExistingRequestException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import com.interviewrestapi.model.Request;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Getter
 public class RequestController {
+    private final CsvFileHandler csvFileHandler;
+
+
     @GetMapping
     public ResponseEntity<List<Request>> listRequests() throws IOException {
         try {
             return new ResponseEntity<>(
-                    ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()), HttpStatus.OK);
+                    ConvertCsvStringToListOfRequests(csvFileHandler.readFromCsv()), HttpStatus.OK);
 
         } catch (IOException exc) {
             throw new ResponseStatusException(
@@ -35,7 +41,7 @@ public class RequestController {
 
     @GetMapping("{username}")
     public ResponseEntity<List<Request>> listRequestsByUsername(@PathVariable String username) throws IOException {
-        List<Request> requests = filterRequestListByUsername(ConvertCsvStringToListOfRequests(CsvFileHandler.readFromCsv()), username);
+        List<Request> requests = filterRequestListByUsername(ConvertCsvStringToListOfRequests(csvFileHandler.readFromCsv()), username);
         if (requests.size() <= 0) {
             throw new NonExistingRequestException(username);
         }
@@ -46,7 +52,7 @@ public class RequestController {
     // The question stated that the date, time, ip information should be input by the user in a POST instead of generated here
     public ResponseEntity<String> createRequest(@Valid @RequestBody Request request) throws IOException {
         try {
-            CsvFileHandler.writeCsvStringToFile(request.convertToCsv());
+            csvFileHandler.writeCsvStringToFile(request.convertToCsv());
             return new ResponseEntity<>(
                     "Save Successful", HttpStatus.OK);
         } catch (IOException exc) {
@@ -58,7 +64,7 @@ public class RequestController {
     @DeleteMapping("{username}")
     public ResponseEntity deleteRequest(@PathVariable String username) throws IOException {
         try {
-            CsvFileHandler.removeLineFromFile(username);
+            csvFileHandler.removeLineFromFile(username);
             return new ResponseEntity<>(
                     "Delete Successful", HttpStatus.OK);
         } catch (IOException exc) {

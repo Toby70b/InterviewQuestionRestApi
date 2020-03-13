@@ -11,7 +11,7 @@ public class CsvFileHandler {
     private static final String TEMP_FILE_LOCATION = ".\\src\\main\\resources\\tempRequests.csv";
     private static final String SEPERATOR = ",";
 
-    public static void writeCsvStringToFile(String csv) throws IOException {
+    public void writeCsvStringToFile(String csv) throws IOException {
         try(BufferedWriter bw = new BufferedWriter(new java.io.FileWriter(FILE_LOCATION, true))){
             bw.write(csv);
         }
@@ -20,7 +20,7 @@ public class CsvFileHandler {
         }
     }
 
-    public static String readFromCsv() throws IOException {
+    public String readFromCsv() throws IOException {
         StringBuilder csv = new StringBuilder();
         String line = "";
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_LOCATION))) {
@@ -34,7 +34,7 @@ public class CsvFileHandler {
         return csv.toString();
     }
 
-    public static boolean removeLineFromFile(String username) throws IOException {
+    public boolean removeLineFromFile(String username) throws IOException {
         File tempFile = new File(TEMP_FILE_LOCATION);
         BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
         String line;
