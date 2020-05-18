@@ -1,6 +1,7 @@
 package com.interviewrestapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

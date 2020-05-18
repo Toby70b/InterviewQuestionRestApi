@@ -1,13 +1,15 @@
 package com.interviewrestapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public class Language {
-    private String code, name;
+    private String code;
+    private String name;
     @JsonProperty("native")
     private String nativeLanguage;
 

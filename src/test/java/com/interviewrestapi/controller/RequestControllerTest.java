@@ -41,7 +41,7 @@ class RequestControllerTest {
     @Test
     void listRequests() {
     }
-
+/*
     @Test
     void listRequestsByUsernameReturnRequestWhenMatchingUsernameUsed() throws IOException {
         when(requestController.getCsvFileHandler().readFromCsv())
@@ -71,7 +71,7 @@ class RequestControllerTest {
         });
 
     }
-
+*/
     @Test
     void createRequestThrowExceptionWhenMethodArgumentsInvalid() {
     }

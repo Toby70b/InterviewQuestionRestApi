@@ -1,5 +1,7 @@
 package com.interviewrestapi.model;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvRecurse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
