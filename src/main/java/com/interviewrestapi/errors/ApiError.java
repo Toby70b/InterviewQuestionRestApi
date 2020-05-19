@@ -3,7 +3,8 @@ package com.interviewrestapi.errors;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Setter
 @Getter

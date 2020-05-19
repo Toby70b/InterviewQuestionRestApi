@@ -1,16 +1,11 @@
 package com.interviewrestapi.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.interviewrestapi.exception.LocationDetailsNotFoundException;
 import com.opencsv.bean.CsvRecurse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import com.interviewrestapi.util.HttpRequestCreator;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -2,8 +2,6 @@ package com.interviewrestapi.customCsvConverters;
 
 import com.interviewrestapi.model.Device;
 import com.opencsv.bean.AbstractBeanField;
-import com.opencsv.exceptions.CsvConstraintViolationException;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
 
 public class DeviceCsvConverter extends AbstractBeanField {
     @Override

@@ -1,8 +1,6 @@
 package com.interviewrestapi.customCsvConverters;
 
 import com.opencsv.bean.AbstractBeanField;
-import com.opencsv.exceptions.CsvConstraintViolationException;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

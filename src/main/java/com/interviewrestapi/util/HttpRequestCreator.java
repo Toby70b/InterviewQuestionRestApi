@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 @RequiredArgsConstructor
 public class HttpRequestCreator {
     private HttpClient client;
-    private Header contentTypeHeader = new BasicHeader("Content-Type", "application/json; charset=UTF-8");;
+    private Header contentTypeHeader = new BasicHeader("Content-Type", "application/json; charset=UTF-8");
     @NonNull
     private String URI;
 
