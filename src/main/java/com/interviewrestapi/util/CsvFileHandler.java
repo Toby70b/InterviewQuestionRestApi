@@ -13,13 +13,12 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CsvFileHandler<T> {
 
     private final String fileLocation;
+
     public void convertBeanToCsv(T objectToConvert) throws IOException {
         List<T> arrayList = readFromCsv(objectToConvert.getClass());
         arrayList.add(objectToConvert);
@@ -32,13 +31,8 @@ public class CsvFileHandler<T> {
         }
     }
 
-    public void removeMatchingIpLogFromFile(List<T> listOfThings, Predicate<T> removalCondition) throws IOException {
-        List<T> filteredListOfThings = listOfThings.stream().filter(removalCondition).collect(Collectors.toList());
-        writeObjectsToCsv(filteredListOfThings);
-    }
-
-    private void writeObjectsToCsv(List<T> listOfObjects) throws IOException {
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new java.io.FileWriter(fileLocation))){
+    public void writeObjectsToCsv(List<T> listOfObjects) throws IOException {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new java.io.FileWriter(fileLocation))) {
             StatefulBeanToCsvBuilder<T> builder = new StatefulBeanToCsvBuilder<>(bufferedWriter);
             StatefulBeanToCsv<T> beanWriter = builder.build();
             beanWriter.write(listOfObjects);

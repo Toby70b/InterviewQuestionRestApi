@@ -40,13 +40,12 @@ public class HttpRequestCreator {
         StringBuilder total = new StringBuilder();
 
         // Wrap a BufferedReader around the InputStream
-        try(BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
+        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
             // Read response until the end
             while ((line = rd.readLine()) != null) {
                 total.append(line);
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             throw new IOException(e.getMessage());
         }
         return total.toString();

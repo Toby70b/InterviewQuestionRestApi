@@ -29,6 +29,7 @@ public class Swagger2Config {
                 .useDefaultResponseMessages(false) // Remove response codes that, while documented are not actually produced by the endpoint.
                 .tags(new Tag(IPLOG_CONTROLLER_TAG, "CRUD operations allowing for the management of ipLogs"));
     }
+
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("Spring Boot REST API")
                 .description("Interview REST API")

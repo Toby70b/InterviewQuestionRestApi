@@ -28,10 +28,10 @@ public class IpLogService {
         this.requestDetailsCsvFileHandler = new CsvFileHandler<>(IPLOG_CSV);
     }
 
-    private List<IpLog> filterIpLogsByUsername(List<IpLog> ipLogs, String username){
+    private List<RequestDetails> filterRequestDetailsByUsername(List<RequestDetails> ipLogs, String username) {
         return ipLogs
                 .stream()
-                .filter(ipLog ->  ipLog.getRequestDetails().getUser().getUsername().toLowerCase().equals(username.toLowerCase()))
+                .filter(ipLog -> ipLog.getUser().getUsername().toLowerCase().equals(username.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
@@ -43,7 +43,7 @@ public class IpLogService {
         IpDetails convertedObject = mapper.readValue(httpRequestCreator.getAll(), IpDetails.class);
         //If the ip type (i.e. ipv4, v6) is null its likely the ip was invalid (I'm not going to try 1000000 ips to confirm this when I'm not being paid :P )
         // Though doing this may be wrong, a user may want the other details but without the ip stuff
-        if(convertedObject.getType() == null) throw new LocationDetailsNotFoundException(ipAddress);
+        if (convertedObject.getType() == null) throw new LocationDetailsNotFoundException(ipAddress);
         return convertedObject;
     }
 
@@ -51,9 +51,8 @@ public class IpLogService {
         return requestDetailsCsvFileHandler.readFromCsv(RequestDetails.class);
     }
 
-    public List<IpLog> getIpLogs() throws IOException {
+    public List<IpLog> getIpLogs(List<RequestDetails> requestDetails) throws IOException {
         List<IpLog> ipLogs = new ArrayList<>();
-        List<RequestDetails> requestDetails = getRequestDetailsFromCsv();
         for (RequestDetails requestDetail : requestDetails) {
             ipLogs.add(new IpLog(requestDetail, getIpDetailsFromIpStack(requestDetail.getIpAddress())));
         }
@@ -61,7 +60,8 @@ public class IpLogService {
     }
 
     public List<IpLog> getIpLogsByUsername(String username) throws IOException {
-        List<IpLog> ipLogs = filterIpLogsByUsername(getIpLogs(), username);
+        List<RequestDetails> requestDetails = filterRequestDetailsByUsername(getRequestDetailsFromCsv(), username);
+        List<IpLog> ipLogs = getIpLogs(requestDetails);
         if (ipLogs.size() <= 0) {
             throw new NonExistingIpLogException(username);
         }
@@ -72,8 +72,8 @@ public class IpLogService {
         requestDetailsCsvFileHandler.convertBeanToCsv(requestDetails);
     }
 
-    //Todo: change this, remove the method from csv filehandler so it only handles reading and writing, and just call write with the filtered list
     public void deleteIpLogsByUsername(String username) throws IOException {
-        requestDetailsCsvFileHandler.removeMatchingIpLogFromFile(requestDetailsCsvFileHandler.readFromCsv(IpLog.class), x -> !x.getUser().getUsername().equals(username));
+        List<RequestDetails> requestDetails = getRequestDetailsFromCsv();
+        requestDetailsCsvFileHandler.writeObjectsToCsv(filterRequestDetailsByUsername(requestDetails, username));
     }
 }

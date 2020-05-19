@@ -12,7 +12,7 @@ public class RequestErrorAttributes extends DefaultErrorAttributes {
     private String currentApiVersion;
 
     @Override
-    public Map<String, Object> getErrorAttributes(WebRequest webRequest,boolean includeStackTrace) {
+    public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
         final Map<String, Object> defaultErrorAttributes = super.getErrorAttributes(webRequest, false);
         final ApiError error = ApiError.fromDefaultAttributeMap(
                 currentApiVersion, defaultErrorAttributes);

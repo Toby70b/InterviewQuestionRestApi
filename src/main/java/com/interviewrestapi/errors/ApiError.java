@@ -13,13 +13,13 @@ public class ApiError {
     private final String apiVersion;
     private ErrorBlock error;
 
-    public ApiError(String apiVersion,String code,String message,String domain,String reason,String errorMessage) {
+    public ApiError(String apiVersion, String code, String message, String domain, String reason, String errorMessage) {
         this.apiVersion = apiVersion;
         this.error = new ErrorBlock(code, message, domain, reason, errorMessage);
     }
 
     public static ApiError fromDefaultAttributeMap(String apiVersion,
-                                                    Map<String, Object> defaultErrorAttributes) {
+                                                   Map<String, Object> defaultErrorAttributes) {
         return new ApiError(
                 apiVersion,
                 ((Integer) defaultErrorAttributes.get("status")).toString(),

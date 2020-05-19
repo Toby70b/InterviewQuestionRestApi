@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Error {
-    private  String domain;
-    private  String reason;
-    private  String message;
+    private String domain;
+    private String reason;
+    private String message;
 }

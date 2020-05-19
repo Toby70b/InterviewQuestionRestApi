@@ -10,9 +10,9 @@ import java.util.List;
 @Setter
 public class ErrorBlock {
 
-    private  String code;
-    private  String message;
-    private  List<Error> errors;
+    private String code;
+    private String message;
+    private List<Error> errors;
 
     public ErrorBlock(final String code, final String message, final String domain,
                       final String reason, final String errorMessage) {

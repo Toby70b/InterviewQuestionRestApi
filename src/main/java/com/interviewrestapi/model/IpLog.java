@@ -36,7 +36,6 @@ public class IpLog {
     }
 
 
-
     private Device AddDevice(String device) {
         switch (device) {
             case "PC":

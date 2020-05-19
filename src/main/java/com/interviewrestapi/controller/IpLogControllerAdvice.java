@@ -34,7 +34,7 @@ public class IpLogControllerAdvice extends ResponseEntityExceptionHandler {
                 "Request Not Found",
                 "request-exceptions",
                 "NonExistingRequestException",
-                "Request with username "+ex.getMessage()+" Not Found"
+                "Request with username " + ex.getMessage() + " Not Found"
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -47,7 +47,7 @@ public class IpLogControllerAdvice extends ResponseEntityExceptionHandler {
                 "Location details not found",
                 "request-exceptions",
                 "LocationDetailsNotFoundException",
-                "IP stack couldn't find any details for IP "+ex.getMessage()
+                "IP stack couldn't find any details for IP " + ex.getMessage()
         );
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -64,7 +64,7 @@ public class IpLogControllerAdvice extends ResponseEntityExceptionHandler {
         );
         List<Error> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.add(  new Error("request-exceptions","MethodArgumentNotValidException",error.getField() + ": " + error.getDefaultMessage()));
+            errors.add(new Error("request-exceptions", "MethodArgumentNotValidException", error.getField() + ": " + error.getDefaultMessage()));
         }
         apiError.getError().setErrors(errors);
         return new ResponseEntity<>(apiError, BAD_REQUEST);
