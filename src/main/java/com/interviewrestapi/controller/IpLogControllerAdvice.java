@@ -21,7 +21,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestControllerAdvice
-public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
+public class IpLogControllerAdvice extends ResponseEntityExceptionHandler {
 
     @Value("${ipLogs.api.version}")
     private String currentApiVersion;
