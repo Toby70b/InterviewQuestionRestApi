@@ -7,7 +7,6 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,9 +16,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@Component
 @RequiredArgsConstructor
 public class CsvFileHandler<T> {
+
     private final String fileLocation;
     public void convertBeanToCsv(T objectToConvert) throws IOException {
         List<T> arrayList = readFromCsv(objectToConvert.getClass());

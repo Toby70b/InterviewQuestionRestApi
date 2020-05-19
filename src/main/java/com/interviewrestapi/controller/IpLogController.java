@@ -1,11 +1,9 @@
 package com.interviewrestapi.controller;
 
 import com.interviewrestapi.config.Swagger2Config;
-import com.interviewrestapi.exception.NonExistingIpLogException;
 import com.interviewrestapi.model.IpLog;
 import com.interviewrestapi.model.RequestDetails;
 import com.interviewrestapi.services.IpLogService;
-import com.interviewrestapi.util.CsvFileHandler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
