@@ -5,6 +5,7 @@ import com.interviewrestapi.customCsvConverters.LocalDateCsvConverter;
 import com.interviewrestapi.customCsvConverters.LocalTimeCsvConverter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
+import com.opencsv.bean.CsvRecurse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -14,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@RequiredArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestDetails {
@@ -34,7 +34,10 @@ public class RequestDetails {
     @NotNull
     @CsvBindByName
     private String ipAddress;
-    private LocationDetails locationDetails;
+    @NonNull
+    @NotNull
+    @CsvRecurse
+    private User user;
 
     public LocalDate getDate() {
         return date;
@@ -68,11 +71,11 @@ public class RequestDetails {
         this.ipAddress = ipAddress;
     }
 
-    public LocationDetails getLocationDetails() {
-        return locationDetails;
+    public User getUser() {
+        return user;
     }
 
-    public void setLocationDetails(LocationDetails locationDetails) {
-        this.locationDetails = locationDetails;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

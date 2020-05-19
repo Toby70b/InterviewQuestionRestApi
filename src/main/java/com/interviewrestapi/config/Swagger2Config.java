@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
-    public static final String REQUEST_CONTROLLER_TAG = "Request Controller";
+    public static final String IPLOG_CONTROLLER_TAG = "IpLog Contoller";
 
     @Bean
     public Docket api() {
@@ -27,7 +27,7 @@ public class Swagger2Config {
                 .build()
                 .apiInfo(apiEndPointsInfo())
                 .useDefaultResponseMessages(false) // Remove response codes that, while documented are not actually produced by the endpoint.
-                .tags(new Tag(REQUEST_CONTROLLER_TAG, "CRUD operations allowing for the management of requests"));
+                .tags(new Tag(IPLOG_CONTROLLER_TAG, "CRUD operations allowing for the management of ipLogs"));
     }
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("Spring Boot REST API")

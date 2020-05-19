@@ -3,7 +3,7 @@ package com.interviewrestapi.controller;
 import com.interviewrestapi.errors.ApiError;
 import com.interviewrestapi.errors.Error;
 import com.interviewrestapi.exception.LocationDetailsNotFoundException;
-import com.interviewrestapi.exception.NonExistingRequestException;
+import com.interviewrestapi.exception.NonExistingIpLogException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,11 +23,11 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @RestControllerAdvice
 public class RequestControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @Value("${requests.api.version}")
+    @Value("${ipLogs.api.version}")
     private String currentApiVersion;
 
-    @ExceptionHandler(NonExistingRequestException.class)
-    public ResponseEntity<ApiError> handleNonExistingRequest(NonExistingRequestException ex) {
+    @ExceptionHandler(NonExistingIpLogException.class)
+    public ResponseEntity<ApiError> handleNonExistingRequest(NonExistingIpLogException ex) {
         final ApiError error = new ApiError(
                 currentApiVersion,
                 Integer.toString(HttpStatus.NOT_FOUND.value()),

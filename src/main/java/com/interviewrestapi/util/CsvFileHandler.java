@@ -30,7 +30,7 @@ public class CsvFileHandler<T> {
         }
     }
 
-    public void removeMatchingRequestsFromFile(List<T> listOfThings,Predicate<T> removalCondition) throws IOException {
+    public void removeMatchingIpLogFromFile(List<T> listOfThings, Predicate<T> removalCondition) throws IOException {
         List<T> filteredListOfThings = listOfThings.stream().filter(removalCondition).collect(Collectors.toList());
         writeObjectsToCsv(filteredListOfThings);
     }
