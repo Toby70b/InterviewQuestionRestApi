@@ -8,16 +8,13 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import lombok.RequiredArgsConstructor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 @RequiredArgsConstructor
 public class CsvFileHandler<T> {
 
-    private final String fileLocation;
+    private final File fileLocation;
 
     public void convertBeanToCsv(T objectToConvert) throws IOException {
         List<T> arrayList = readFromCsv(objectToConvert.getClass());

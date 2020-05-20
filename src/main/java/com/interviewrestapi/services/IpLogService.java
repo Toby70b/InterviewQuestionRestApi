@@ -9,11 +9,17 @@ import com.interviewrestapi.model.IpLog;
 import com.interviewrestapi.model.RequestDetails;
 import com.interviewrestapi.util.CsvFileHandler;
 import com.interviewrestapi.util.HttpRequestCreator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,18 +27,28 @@ public class IpLogService {
 
     private static final String URI = "http://api.ipstack.com/";
     private static final String KEY = "?access_key=62a441cf871fd83f2bd668bee7b18a5f";
-    private static final String IPLOG_CSV = ".\\src\\main\\resources\\requests.csv";
     private final CsvFileHandler<RequestDetails> requestDetailsCsvFileHandler;
+    @Autowired
+    public IpLogService(@Value("${ipLogs.IpLogCsvFileLocation}") String prop) throws IOException {
+        File file = new ClassPathResource(prop).getFile();
+        this.requestDetailsCsvFileHandler = new CsvFileHandler<>(file);
+    }
 
-    public IpLogService() {
-        this.requestDetailsCsvFileHandler = new CsvFileHandler<>(IPLOG_CSV);
+    private List<RequestDetails> filterRequestDetailsByPredicate(List<RequestDetails> ipLogs, Predicate<RequestDetails> predicate) {
+        return ipLogs
+                .stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
     }
 
     private List<RequestDetails> filterRequestDetailsByUsername(List<RequestDetails> ipLogs, String username) {
-        return ipLogs
-                .stream()
-                .filter(ipLog -> ipLog.getUser().getUsername().toLowerCase().equals(username.toLowerCase()))
-                .collect(Collectors.toList());
+        Predicate<RequestDetails> filterByUsername = ipLog -> ipLog.getUser().getUsername().toLowerCase().equals(username.toLowerCase());
+        return filterRequestDetailsByPredicate(ipLogs,filterByUsername);
+    }
+
+    private List<RequestDetails> filterOutRequestsByUsername(List<RequestDetails> ipLogs, String username) {
+        Predicate<RequestDetails> filterOutByUsername = ipLog -> !ipLog.getUser().getUsername().toLowerCase().equals(username.toLowerCase());
+        return filterRequestDetailsByPredicate(ipLogs,filterOutByUsername);
     }
 
     private IpDetails getIpDetailsFromIpStack(String ipAddress) throws IOException {
@@ -47,7 +63,7 @@ public class IpLogService {
         return convertedObject;
     }
 
-    private List<RequestDetails> getRequestDetailsFromCsv() throws IOException {
+    public List<RequestDetails> getRequestDetailsFromCsv() throws IOException {
         return requestDetailsCsvFileHandler.readFromCsv(RequestDetails.class);
     }
 
@@ -74,6 +90,6 @@ public class IpLogService {
 
     public void deleteIpLogsByUsername(String username) throws IOException {
         List<RequestDetails> requestDetails = getRequestDetailsFromCsv();
-        requestDetailsCsvFileHandler.writeObjectsToCsv(filterRequestDetailsByUsername(requestDetails, username));
+        requestDetailsCsvFileHandler.writeObjectsToCsv(filterOutRequestsByUsername(requestDetails, username));
     }
 }

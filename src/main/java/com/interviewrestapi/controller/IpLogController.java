@@ -30,13 +30,13 @@ public class IpLogController {
 
     @ApiOperation(value = "View a list of all IpLog, alongside details of the requests Ip", response = IpLog.class, responseContainer = "List")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Requests successfully retrieved"),
+            @ApiResponse(code = 200,message = "Requests successfully retrieved"),
             @ApiResponse(code = 500, message = "Error when reading from csv file")
     })
     @GetMapping
     public ResponseEntity<List<IpLog>> listIpLogs() {
         try {
-            return new ResponseEntity<>(ipLogService.getIpLogs(), HttpStatus.OK);
+            return new ResponseEntity<>(ipLogService.getIpLogs(ipLogService.getRequestDetailsFromCsv()), HttpStatus.OK);
         } catch (IOException exc) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Error when reading from csv file", exc);
@@ -45,18 +45,18 @@ public class IpLogController {
 
     @ApiOperation(value = "View a list of all saved IpLogs, where the username of the IpLog matches the parameter passed", response = IpLog.class, responseContainer = "List")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "IpLogs successfully retrieved"),
+            @ApiResponse(code = 200,message = "IpLogs successfully retrieved"),
             @ApiResponse(code = 404, message = "IpLog with username not Found"),
             @ApiResponse(code = 500, message = "Error when reading from csv file")
     })
     @GetMapping("{username}")
     public ResponseEntity<List<IpLog>> listIpLogsByUsername(@PathVariable String username) throws IOException {
-        return new ResponseEntity<>(ipLogService.getIpLogsByUsername(username), HttpStatus.OK);
+       return new ResponseEntity<>(ipLogService.getIpLogsByUsername(username), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Create a new IpLog item", response = String.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Save Successful"),
+            @ApiResponse(code = 200,message = "Save Successful"),
             @ApiResponse(code = 500, message = "Error when reading from csv file")
     })
     @PostMapping
