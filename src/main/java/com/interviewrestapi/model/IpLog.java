@@ -10,11 +10,11 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class IpLog {
-    @NotNull
+
     @Valid
     @CsvRecurse
     private RequestDetails requestDetails;
-    @NotNull
+
     @Valid
     @CsvRecurse
     private IpDetails ipDetails;

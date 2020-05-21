@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @NotNull
+
     @Pattern(regexp = "^[a-zA-Z]+$", message = "{com.interviewrestapi.onlyAlphabeticalCharacters.message}")
     @Size(min = 2, max = 30)
     @CsvBindByName

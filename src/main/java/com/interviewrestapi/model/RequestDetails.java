@@ -8,7 +8,6 @@ import com.opencsv.bean.CsvCustomBindByName;
 import com.opencsv.bean.CsvRecurse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -17,23 +16,18 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestDetails {
-    @NonNull
     @NotNull
     @CsvCustomBindByName(converter = LocalDateCsvConverter.class)
     private LocalDate date;
-    @NonNull
     @NotNull
     @CsvCustomBindByName(converter = LocalTimeCsvConverter.class)
     private LocalTime time;
-    @NonNull
     @NotNull
     @CsvCustomBindByName(converter = DeviceCsvConverter.class)
     private Device device;
-    @NonNull
     @NotNull
     @CsvBindByName
     private String ipAddress;
-    @NonNull
     @NotNull
     @CsvRecurse
     private User user;

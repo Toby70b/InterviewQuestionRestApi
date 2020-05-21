@@ -1,5 +1,6 @@
 package com.interviewrestapi.util;
 
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.Header;
@@ -9,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 
+import javax.validation.constraints.NotNull;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,8 +20,8 @@ import java.io.InputStreamReader;
 public class HttpRequestCreator {
     private HttpClient client;
     private Header contentTypeHeader = new BasicHeader("Content-Type", "application/json; charset=UTF-8");
-    @NonNull
-    private String URI;
+    @NotNull
+    private final String URI;
 
     public String getAll() throws IOException {
         try {
@@ -55,7 +57,4 @@ public class HttpRequestCreator {
         return URI;
     }
 
-    public void setURI(String URI) {
-        this.URI = URI;
-    }
 }
